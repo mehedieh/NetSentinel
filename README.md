@@ -22,6 +22,10 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1      # creates .venv, insta
 .\run.ps1 -Admin                                           # elevated: unlocks admin-only features
 ```
 
+No PowerShell? Just double-click **`setup.bat`**, then **`run.bat`** (or **`run-as-admin.bat`**).
+If PowerShell says a script "is not digitally signed", the files still carry the download mark: run
+`Get-ChildItem -Recurse | Unblock-File` in the folder, or use the `.bat` launchers.
+
 Manual alternative:
 
 ```powershell
