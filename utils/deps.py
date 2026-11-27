@@ -57,9 +57,26 @@ def check(include_gui: bool = True) -> dict:
     return res
 
 
+TK_FIX = ("Python's Tcl/Tk component is missing, so no window can be shown. Fix: Settings > Apps > "
+          "Python 3.x > Modify > tick 'tcl/tk and IDLE' > Install (or: winget install -e --id "
+          "Python.Python.3.13 --force). Then run setup.bat again.")
+
+
+def tk_problem() -> str:
+    """Return an explanation if tkinter/Tcl cannot initialise, else ''."""
+    try:
+        import tkinter
+        tkinter.Tcl()          # needs init.tcl, but opens no window
+        return ""
+    except Exception as e:     # ImportError or TclError
+        return f"{TK_FIX} (details: {str(e).splitlines()[0]})"
+
+
 def problems(include_gui: bool = True) -> list[str]:
     r = check(include_gui)
     out = []
+    if include_gui and (tk := tk_problem()):
+        out.append(tk)
     if not r["python_ok"]:
         out.append(f"Python {r['python']} detected; NetSentinel requires Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]}+.")
     if r["missing"]:
@@ -108,8 +125,8 @@ def ensure(include_gui: bool = True, include_optional: bool = False, echo=print)
     if getattr(sys, "frozen", False):
         return []
     r = check(include_gui)
-    if not r["python_ok"]:
-        return problems(include_gui)
+    if not r["python_ok"] or (include_gui and tk_problem()):
+        return problems(include_gui)   # pip cannot fix these
     todo = [s for _n, _v, s in r["missing"] + r["outdated"]]
     if include_optional:
         todo += [_spec(n, OPTIONAL[n]) for n, v in r["optional"].items() if v is None]

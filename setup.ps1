@@ -21,6 +21,14 @@ $vpy = ".\.venv\Scripts\python.exe"
 & $vpy -m pip install --upgrade pip
 $req = if ($Optional) { "requirements-optional.txt" } else { "requirements.txt" }
 & $vpy -m pip install --upgrade -r $req
+& $vpy -c "import tkinter; tkinter.Tcl()" 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "`nPython's Tcl/Tk component is missing - NetSentinel cannot open its window." -ForegroundColor Red
+    Write-Host "Fix: Settings > Apps > Python 3.13 > Modify > tick 'tcl/tk and IDLE' > Install" -ForegroundColor Yellow
+    Write-Host "  or: winget install -e --id Python.Python.3.13 --force" -ForegroundColor Yellow
+    Write-Host "Then delete the .venv folder and run setup.bat again." -ForegroundColor Yellow
+    exit 1
+}
 & $vpy main.py --check
 Write-Host "`nSetup complete. Start with:  .\run.ps1" -ForegroundColor Green
 if ($Optional) { Write-Host "Packet capture also needs Npcap: https://npcap.com" -ForegroundColor Yellow }

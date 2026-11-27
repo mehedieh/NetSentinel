@@ -136,5 +136,35 @@ def main(argv=None) -> int:
     return run_gui()
 
 
+def _crash_report(exc: BaseException) -> None:
+    """Never let NetSentinel vanish silently: log the traceback and show it to the user."""
+    import traceback
+    text = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    try:
+        from utils.paths import log_dir
+        path = log_dir() / "crash.log"
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(f"\n===== {time.ctime()} =====\n{text}")
+        where = f"\n\nSaved to: {path}"
+    except Exception:
+        where = ""
+    try:
+        print(text, file=sys.stderr)
+    except Exception:
+        pass
+    if os.name == "nt":
+        try:
+            import ctypes
+            ctypes.windll.user32.MessageBoxW(None, text[-1800:] + where, "NetSentinel failed to start", 0x10)
+        except Exception:
+            pass
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except SystemExit:
+        raise
+    except BaseException as e:   # noqa: BLE001
+        _crash_report(e)
+        sys.exit(1)

@@ -318,6 +318,15 @@ def test_auto_install_requests_missing_and_outdated(monkeypatch):
             return "5.9.0"   # outdated
         return real_version(name)
     monkeypatch.setattr(deps.metadata, "version", fake_version)
+    monkeypatch.setattr(deps, "tk_problem", lambda: "")
     monkeypatch.setattr(deps, "pip_install", lambda specs, upgrade=True: (calls.append(specs), (True, ""))[1])
     deps.ensure(include_gui=True, echo=lambda m: None)
     assert calls and "customtkinter>=5.2.2,<6" in calls[0] and "psutil>=6.1,<8" in calls[0]
+
+
+def test_missing_tcl_is_reported_with_fix(monkeypatch):
+    from utils import deps
+    monkeypatch.setattr(deps, "tk_problem", lambda: deps.TK_FIX)
+    probs = deps.problems(include_gui=True)
+    assert probs[0].startswith("Python's Tcl/Tk") and "tcl/tk and IDLE" in probs[0]
+    assert deps.problems(include_gui=False) == [] or not any("Tcl" in p for p in deps.problems(include_gui=False))
