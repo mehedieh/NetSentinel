@@ -11,6 +11,8 @@ Every finding comes with its evidence and its limits.
 NetSentinel never hides itself, never opens the microphone or camera, never records content, never decrypts
 TLS, never disables Defender or the Firewall, and never sends data anywhere unless you explicitly allow it.
 
+![Security Overview](docs/screenshot-overview.png)
+
 ---
 
 ## 1. Quick start (PowerShell)
