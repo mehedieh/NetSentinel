@@ -1,0 +1,79 @@
+{
+  "monitoring": {
+    "connection_interval_sec": 1.0,
+    "privacy_interval_sec": 1.0,
+    "dns_cache_interval_sec": 30,
+    "dns_eventlog_interval_sec": 5,
+    "autostart_monitoring": true
+  },
+  "capture": {
+    "enable_estats": true,
+    "enable_packet_capture": false,
+    "interface": ""
+  },
+  "dns": {
+    "reverse_dns": true,
+    "read_dns_client_log": true,
+    "read_dns_cache": true
+  },
+  "correlation": {
+    "window_before_sec": 5,
+    "window_after_sec": 30,
+    "expected_apps": [
+      "teams.exe",
+      "ms-teams.exe",
+      "zoom.exe",
+      "discord.exe",
+      "skype.exe",
+      "slack.exe",
+      "chrome.exe",
+      "msedge.exe",
+      "firefox.exe",
+      "brave.exe",
+      "opera.exe",
+      "whatsapp.exe",
+      "telegram.exe",
+      "webex.exe",
+      "obs64.exe"
+    ]
+  },
+  "thresholds": {
+    "upload_spike_mb_per_min": 25.0,
+    "spike_factor": 5.0,
+    "new_conn_per_min": 120,
+    "beacon_min_events": 6,
+    "beacon_max_cv": 0.2,
+    "long_lived_minutes": 120,
+    "dns_queries_per_min_per_domain": 60,
+    "dns_unique_subdomains_5min": 60,
+    "correlation_upload_mb": 1.0
+  },
+  "retention": {
+    "days": 30,
+    "cleanup_interval_hours": 6
+  },
+  "threat_intel": {
+    "mode": "manual",
+    "auto_consent": false,
+    "providers": {
+      "virustotal": false,
+      "abuseipdb": false,
+      "otx": false
+    },
+    "cache_hours": 24,
+    "rdap_lookups": false,
+    "blocklist_path": "",
+    "geoip_mmdb_path": ""
+  },
+  "alerts": {
+    "min_severity": "low",
+    "dedup_minutes": 30
+  },
+  "ui": {
+    "refresh_ms": 1000,
+    "start_page": "Overview"
+  },
+  "privacy": {
+    "store_usernames": true
+  }
+}

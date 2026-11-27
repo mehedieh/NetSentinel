@@ -1,0 +1,4 @@
+# NetSentinel local blocklist example
+# One IP, CIDR or domain per line. Copy entries into %LOCALAPPDATA%\NetSentinel\blocklist.txt
+198.51.100.0/24   # documentation range (example)
+bad-example.invalid

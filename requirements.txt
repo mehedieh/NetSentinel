@@ -1,0 +1,12 @@
+# NetSentinel runtime requirements
+# Python 3.12 or 3.13 (64-bit) on Windows 11. Tested to compile on 3.11–3.13.
+#
+# Only packages the code actually imports are listed. Windows APIs are reached through
+# the standard library (ctypes, winreg) and built-in tools (powershell, wevtutil, netsh),
+# so pywin32 is NOT required. Reverse DNS uses socket, so dnspython is NOT required.
+# HTTP lookups use requests, so httpx is NOT required.
+
+psutil>=6.1,<8          # connections, processes, interface counters (7.2.2 verified)
+customtkinter>=5.2.2,<6 # GUI (pulls in darkdetect + packaging)
+matplotlib>=3.9,<4      # charts (3.11.2 verified; pulls in numpy, pillow)
+requests>=2.32,<3       # optional threat-intel / RDAP lookups (2.34.2 verified)

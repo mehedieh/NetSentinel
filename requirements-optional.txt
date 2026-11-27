@@ -1,0 +1,5 @@
+# Optional features. NetSentinel detects these at runtime and reports their status.
+-r requirements.txt
+
+scapy>=2.6.1,<3     # packet-header capture + DNS sniffing (also needs Npcap: https://npcap.com)
+maxminddb>=2.6,<3   # offline GeoIP/ASN from a user-supplied GeoLite2 .mmdb file

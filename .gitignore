@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# PyInstaller output
+build/work/
+dist/
+*.exe
+
+# Local data (NetSentinel stores data in %LOCALAPPDATA%\NetSentinel, but just in case)
+*.db
+*.db-wal
+*.db-shm
+secrets.bin
+logs/
+reports/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
